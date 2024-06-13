@@ -16,24 +16,78 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <style>
-        .team-members {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        .team-member {
-            text-align: center;
-            margin: 0 50px; /* 設置左右邊距 */
-        }
-    
-        .team-member-info {
-            border: 2px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-        }
+.team-section-content {
+    text-align: center; /* 將整個團隊介紹部分置中 */
+    margin: 0 auto; /* 如果需要，可以添加這行來確保在寬屏幕上置中 */
+}
+
+.team-container {
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* 可根據需要調整 */
+}
+
+.team-members {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* 讓成員在小屏幕上可以自動換行 */
+    margin-bottom: 30px;
+}
+
+.team-member {
+    text-align: center;
+    margin: 0 15px; /* 增加每個成員框之間的左右邊距 */
+    flex: 1; /* 成員框自動填滿空間 */
+    max-width: 300px; /* 控制成員框的最大寬度 */
+}
+
+.team-member-info {
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-mentor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px; /* 增加與團隊成員之間的距離 */
+}
+
+.team-mentor .team-member-info {
+    text-align: center;
+    width: 300px; /* 固定寬度，使導師框更集中 */
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.resume-section-content {
+    text-align: center;
+}
+
+.resume-section-content h2, .resume-section-content .subheading {
+    text-align: center;
+}
+
+.video-container video {
+    max-width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
     </style>
-    
     
     
     <body id="page-top">
@@ -118,12 +172,15 @@
                 <div class="resume-section-content">
                     <h2 class="mb-5">成果展示</h2>
                     <div class="subheading mb-3">影片展示</div>
-                    <video width="800" height="450" controls>
-                        <source src="assets/mp4/project2.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="video-container">
+                        <video id="project-video" width="800" height="450" controls>
+                            <source src="assets/mp4/project2.mp4" type="video/mp4">
+                            您的瀏覽器不支持 HTML5 視頻標籤。
+                        </video>
+                    </div>
                 </div>
             </section>
+            
             
             <!-- Interests-->
             <section class="resume-section" id="interests">
@@ -131,7 +188,7 @@
                     <h2 class="mb-5">團隊介紹</h2>
                     
                     <div class="team-members">
-                        <div class="team-member-left">
+                        <div class="team-member">
                             <div class="team-member-info">
                                 <h3>陳樂融</h3>
                                 <p>學號: 111010530</p>
@@ -139,7 +196,7 @@
                             </div>
                         </div>
                         
-                        <div class="team-member-center">
+                        <div class="team-member">
                             <div class="team-member-info">
                                 <h3>王若馨</h3>
                                 <p>學號: 111010576</p>
@@ -147,7 +204,7 @@
                             </div>
                         </div>
                         
-                        <div class="team-member-right">
+                        <div class="team-member">
                             <div class="team-member-info">
                                 <h3>陳勝傑</h3>
                                 <p>學號: 111010537</p>
@@ -155,15 +212,51 @@
                             </div>
                         </div>
                     </div>
-                    
+            
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="team-member-info">
+                                <h3>李錫捷</h3>
+                                <p>導師</p>
+                                <p>現職: 國立金門大學資訊工程學系教授</p>
+                                <p>研究專長: 網路安全、多媒體系統、嵌入式系統、行動計算</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             
             
         </div>
         <!-- Bootstrap core JS-->
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var video = document.getElementById('project-video');
+        
+                function isElementInViewport(el) {
+                    var rect = el.getBoundingClientRect();
+                    return (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
+                }
+        
+                function onScroll() {
+                    if (isElementInViewport(video)) {
+                        video.play();
+                        window.removeEventListener('scroll', onScroll);
+                    }
+                }
+        
+                window.addEventListener('scroll', onScroll);
+            });
+        </script>
+        
     </body>
 </html>
